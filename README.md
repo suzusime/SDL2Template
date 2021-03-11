@@ -18,3 +18,4 @@ SDL2Template for Visual C++
 このプロジェクトには現状、以下のバージョンのSDLが含まれています。
 
 - SDL version 2.0.14
+- SDL_image version 2.0.5
