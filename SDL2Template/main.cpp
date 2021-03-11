@@ -1,8 +1,8 @@
 ﻿#include <SDL.h>
-#include <SDL_render.h>
 #include <SDL_image.h>
 
 int main(int argc, char* argv[]) {
+	#pragma region 初期化処理
 	// SDLの初期化
 	int init_result = SDL_Init(SDL_INIT_EVERYTHING);
 	if (init_result != 0) {
@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 	}
 	// ウインドウの作成
 	SDL_Window* window = SDL_CreateWindow(
-		"SDL2 Template Window", // 名前
+		u8"SDL2雛型", // 名前
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, // ウインドウの場所
 		1024, 768, // ウインドウの大きさ
 		0 // ウインドウのフラグ（特になければ0）
@@ -30,18 +30,19 @@ int main(int argc, char* argv[]) {
 		SDL_Log("レンダラの作成に失敗: %s", SDL_GetError());
 		return -1;
 	}
+	#pragma endregion
 
-	// アセットの読み込み
-	SDL_Surface* image1 = IMG_Load("Assets/sample1.png");
+	#pragma region アセットの読み込み
+	SDL_Surface* image1 = IMG_Load("Assets/sample1.png"); // 画像の読み込み
 	if (!image1) {
 		SDL_Log("画像の読み込みに失敗: %s", IMG_GetError());
-		// ここでエラー処理を行う
 	}
+	#pragma endregion
 
-	// メインループ
+	#pragma region メインループ
 	bool is_running = true;
 	while (is_running) {
-		//入力の処理
+		#pragma region 入力処理
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			switch (event.type)
@@ -57,8 +58,9 @@ int main(int argc, char* argv[]) {
 		if (keyboard_state[SDL_SCANCODE_ESCAPE]) { // エスケープキーが押されているとき
 			is_running = false;
 		}
+		#pragma endregion
 
-		// 描画処理
+		#pragma region 描画処理
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0); // 描画色指定
 		SDL_RenderClear(renderer); // 裏画面を消去
 
@@ -75,15 +77,19 @@ int main(int argc, char* argv[]) {
 		);
 
 		SDL_RenderPresent(renderer); // 裏画面と表画面を入れ替え
+		#pragma endregion
 	}
+	#pragma endregion
 
-	//アセットの解放
+	#pragma region アセットの解放
 	SDL_FreeSurface(image1);
+	#pragma endregion
 
-	// 終了処理
+	#pragma region 終了処理
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+	#pragma endregion
 
 	return 0;
 }
